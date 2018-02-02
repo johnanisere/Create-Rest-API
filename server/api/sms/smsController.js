@@ -2,10 +2,10 @@ var config = require('../../config/config')
 var querystring = require('querystring')
 var https       = require('https')
 
-
 exports.post=function (req,res,next) {
     // Define the recipient numbers in a comma separated string
     // Numbers should be in international format as shown
+   console.log(req.body)
     var to      = req.body.number
     
     // And of course we want our recipients to know what we really do
@@ -14,7 +14,7 @@ exports.post=function (req,res,next) {
     // Build the post string from an object
     
     var post_data = querystring.stringify({
-        'username' : config.username,
+        'username' : 'myBukkanext',
         'to'       : to,
         'message'  : message
     });
@@ -32,28 +32,25 @@ exports.post=function (req,res,next) {
             'Content-Type' : 'application/x-www-form-urlencoded',
             'Content-Length': post_data.length,
             'Accept': 'application/json',
-            'apikey': config.apikey
+            'apikey': "ba369df4791b0c99a542792497805095c94cd4f1882b4bf5d2ef960e67bbccc5"
         }
     };
-    var logStr={}
     var post_req = https.request(post_options, function(res) {
         res.setEncoding('utf8');
         res.on('data', function (chunk) {
             var jsObject   = JSON.parse(chunk);
             var recipients = jsObject.SMSMessageData.Recipients;
-            
             if ( recipients.length > 0 ) {
                 for (var i = 0; i < recipients.length; ++i ) {
-                    logStr.number =recipients[i].number
-                    logStr.cost=recipients[i].cost
-                    logStr.status=recipients[i].status; // status is either "Success" or "error message"
+                    var logStr  = 'number=' + recipients[i].number;
+                    logStr     += ';cost='   + recipients[i].cost;
+                    logStr     += ';status=' + recipients[i].status; // status is either "Success" or "error message"
                     console.log(logStr);
                     }
                 } else {
-                    logStr.message='Error while sending: ' + jsObject.SMSMessageData.Message
-                    console.log(logStr);
+                    console.log('Error while sending: ' + jsObject.SMSMessageData.Message);
             }
-        })
+        });
     });
     post_req.write(post_data);
     post_req.end();
