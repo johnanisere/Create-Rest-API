@@ -1,3 +1,5 @@
 module.exports={
-    logging:false
+    logging:false,
+    username:'MyAppUsername',
+    apikey:'MyAppApiKey'
 }

@@ -1,0 +1,22 @@
+{
+  "name": "mybukka",
+  "version": "0.0.1",
+  "description": "mybukka new api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "John Anisere",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "colors": "^1.1.2",
+    "express": "^4.16.2",
+    "https": "^1.0.0",
+    "lodash": "^4.17.4",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.11",
+    "querystring": "^0.2.0"
+  }
+}
